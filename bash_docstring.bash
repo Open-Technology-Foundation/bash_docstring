@@ -10,7 +10,7 @@
 #
 # ## Bash docstring structure
 #
-#     ```script.bash
+#     ```
 #     [[function ]funcname[ ]()]
 #     [#!hashbangs]
 #     [#shellchecks]
@@ -21,24 +21,29 @@
 #     # docstring comment
 #     # ...
 #     # ...
-#     commands      #docstring processing stops when commands start.
+#     commands #docstring processing stops when commands start.
 #     ...
 #     ```
 #
 # All hashbangs, shellchecks, blank lines and non-docstring comments
-# are ignored while processing the docstring.
+# are ignored while processing the docstring.  Docstring processing
+# stops with the first Bash command.
 #
-# Docstring processing stops with the first Bash command.
-#
-# To test the docstring functionality within a Bash function
-# definition, try this:
+# To test `bash_docstring`'s functionality, use `bash_docstring`
+# itself:
 #
 #     ```
-#     ./bash_docstring
+#     # Display the bash_docstring's script docstring
+#     :\$ bash_docstring
 #
-#     ./bash_docstring -e bash_docstring.bash
+#     # Display a script's docstring specifying a source file,
+#     # and with parameter expansion (-e).
+#     :\$ bash_docstring -e bash_docstring.bash
 #
-#     ./bash_docstring -e bash_docstring.bash bash_docstring
+#     # Display the docstring for the bash_docstring function
+#     # in script file bash_docstring.bash,
+#     # with parameter expansion (-e).
+#     :\$ bash_docstring -e bash_docstring.bash bash_docstring
 #
 #     ```
 #
@@ -71,16 +76,22 @@
 # users should still be cautious, especially when dealing with
 # untrusted input.
 #
-  # Version: $VERSION
-  # Updated: $UPDATED
-  # Author: $AUTHOR
-  # Organisation: $ORGANIZATION
-  # Licence: $LICENSE
-  # Repository: $REPOSITORY
-  #
+# Version: $VERSION
+#
+# Updated: $UPDATED
+#
+# Author: $AUTHOR
+#
+# Organisation: $ORGANIZATION
+#
+# Licence: $LICENSE
+#
+# Repository: $REPOSITORY
+#
+#
 
 bash_docstring() {
-  # # $PRGNAME $VERSION
+  # ## $PRGNAME Script/Function
   #
   # Displays docstring from a Bash script or function within a Bash
   # script docstring directly from script source file.
@@ -97,10 +108,11 @@ bash_docstring() {
   # or copied into your application script as a replacement for
   # `usage()` or `help()`.
   #
-  # ## Usage
+  # ### Usage
   #
   #   `bash_docstring [-e] [source_file [function_name]]`
   #
+  #   ```
   #   -e, --eval
   #       Execute `eval` for each docstring line. (Default is no
   #       `eval`.) Escape '\$' chars as required, otherwise Bash
@@ -120,6 +132,7 @@ bash_docstring() {
   #       function is displayed, and 0 returned.
   #       If a docstring is not found, an error message is displayed
   #       and 1 is returned.
+  #   ```
   #
   #   `bash_docstring` reads `source_file` for all contiguous comments
   #   at the top of the script or (optionally) immediately after a
@@ -134,31 +147,22 @@ bash_docstring() {
   #
   #   docstrings are output minus leading '# '.
   #
-  # ## Examples:
+  # ### Examples:
   #
   #   ```
-  #   ./bash_docstring
+  #   :\$ ./bash_docstring
   #
-  #   ./bash_docstring -h
+  #   :\$ ./bash_docstring -h
   #
-  #   ./bash_docstring bash_docstring
+  #   :\$ ./bash_docstring bash_docstring
   #
-  #   ./bash_docstring -e bash_docstring.bash bash_docstring
+  #   :\$ ./bash_docstring -e bash_docstring.bash bash_docstring
   #
-  #   ./bash_docstring -e "" bash_docstring
+  #   :\$ ./bash_docstring -e "" bash_docstring
   #
-  #   ./bash_docstring /my/dir/myscript
+  #   :\$ ./bash_docstring /my/dir/myscript
   #
   #   ```
-  #
-  #
-  # Version: $VERSION
-  # Updated: $UPDATED
-  # Author: $AUTHOR
-  # Organisation: $ORGANIZATION
-  # Licence: $LICENSE
-  # Repository: $REPOSITORY
-  #
 
   #!Provenence Globals for scripts
   declare -r  PRGNAME="${FUNCNAME[0]}" \
