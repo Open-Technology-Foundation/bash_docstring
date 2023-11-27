@@ -13,6 +13,7 @@ READMEs, manpages and command-line help.
 
     [[function ]funcname[ ]()]
     [#!hashbangs]
+    [#shellchecks]
     []
     [#non-docstring comment]
     # docstring comment '# '
@@ -23,6 +24,7 @@ READMEs, manpages and command-line help.
     commands #docstring processing stops when commands start.
     ...
 
+All #\!hashbangs, \#shellchecks, blank lines and non-docstring comments
 are ignored while processing the docstring.  Docstring processing
 stops with the first command.
 
@@ -130,13 +132,14 @@ or copied into your application script as a replacement for
   at the top of the script or (optionally) immediately after a
   function definition.
 
-  docstring comments are indicated with a leading '# '
+  Docstring comments are indicated with a leading '# '
   (hash space).
 
-  ignored. docstring processing stops at the first non-'# '*
+  Hashbangs, shellchecks and 'empty' comment lines are all
+  ignored. Docstring processing stops at the first non-'# '*
   line, usually a command.
 
-  docstrings are output minus leading '# '.
+  Docstrings are output minus the leading hash-space '# '.
 
 ### Examples:
 

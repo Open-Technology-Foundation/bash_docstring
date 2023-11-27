@@ -25,7 +25,7 @@
 #     commands #docstring processing stops when commands start.
 #     ...
 #
-# All hashbangs, shellchecks, blank lines and non-docstring comments
+# All #\!hashbangs, \#shellchecks, blank lines and non-docstring comments
 # are ignored while processing the docstring.  Docstring processing
 # stops with the first command.
 #
@@ -132,14 +132,14 @@ bash_docstring() {
   #   at the top of the script or (optionally) immediately after a
   #   function definition.
   #
-  #   docstring comments are indicated with a leading '# '
+  #   Docstring comments are indicated with a leading '# '
   #   (hash space).
   #
-  #   #\!hashbangs, \#shellchecks and 'empty' comments (^\#\$) are all
-  #   ignored. docstring processing stops at the first non-'# '*
+  #   Hashbangs, shellchecks and 'empty' comment lines are all
+  #   ignored. Docstring processing stops at the first non-'# '*
   #   line, usually a command.
   #
-  #   docstrings are output minus leading '# '.
+  #   Docstrings are output minus the leading hash-space '# '.
   #
   # ### Examples:
   #
@@ -224,7 +224,7 @@ bash_docstring() {
     # If it's not a Bash docstring comment, then bugger orf.
     [[ ${ln:0:2} == '# ' ]]     || continue
     # shellcheck begone.
-    [[ $ln == *'shellcheck'* ]] && continue
+    [[ $ln =~ ^#[[:space:]]*shellcheck[[:space:]]+disable ]] && continue
 
     # Output the docstring line.
     if ((_eval)); then
