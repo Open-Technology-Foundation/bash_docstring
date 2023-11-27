@@ -1,4 +1,6 @@
-# bash_docstring - docstrings for Bash
+# bash_docstring
+
+### docstrings for Bash
 
 Bash docstrings are a semantic near-equivalent of Python
 docstrings.
@@ -9,7 +11,6 @@ READMEs, manpages and command-line help.
 
 ## Bash docstring structure
 
-    ```
     [[function ]funcname[ ]()]
     [#!hashbangs]
     []
@@ -22,25 +23,23 @@ READMEs, manpages and command-line help.
     commands #docstring processing stops when commands start.
     ...
 
-    ```
-
 are ignored while processing the docstring.  Docstring processing
-stops with the first Bash command.
+stops with the first command.
 
 To test `bash_docstring`'s functionality, use `bash_docstring`
 itself:
 
     # Display the bash_docstring's script docstring
-    :$ bash_docstring
+    bash_docstring
 
     # Display a script's docstring specifying a source file,
     # and with parameter expansion (-e).
-    :$ bash_docstring -e bash_docstring.bash
+    bash_docstring -e bash_docstring.bash
 
     # Display the docstring for the bash_docstring function
     # in script file bash_docstring.bash,
     # with parameter expansion (-e).
-    :$ bash_docstring -e bash_docstring.bash bash_docstring
+    bash_docstring -e bash_docstring.bash bash_docstring
 
 `bash_docstring` is designed to extract and display docstrings from
 a Bash script or function. The concept of docstrings here is
@@ -59,10 +58,8 @@ function within the source file.
 
 ## Error Handling and Output
 
-If the script fails to find a docstring, it outputs an error
-message. The use of eval to process docstring lines allows for
-dynamic content, but it also requires careful escaping of certain
-characters to avoid unintended command execution.
+If the script fails to find a docstring, it outputs a message and
+returns an error.
 
 ## Security Considerations
 
@@ -98,8 +95,8 @@ documentation in a more standardized and consistent manner, using
 the well-known conventions and protocols of contemporary computer
 programming.
 
-`bash_docstring` is written using wholesome, 100% Bash builtins,
-and the in-memory size of the function is less than 2.5K.
+`bash_docstring` is written using wholesome, 100% Bash builtins.
+The in-memory size of the function is less than 2.5K.
 
 In typical usage, the `bash_docstring` function is simply sourced
 or copied into your application script as a replacement for
@@ -143,15 +140,15 @@ or copied into your application script as a replacement for
 
 ### Examples:
 
-    :$ ./bash_docstring
+    ./bash_docstring
 
-    :$ ./bash_docstring -h
+    ./bash_docstring -h
 
-    :$ ./bash_docstring bash_docstring
+    ./bash_docstring bash_docstring
 
-    :$ ./bash_docstring -e bash_docstring.bash bash_docstring
+    ./bash_docstring -e bash_docstring.bash bash_docstring
 
-    :$ ./bash_docstring -e "" bash_docstring
+    ./bash_docstring -e "" bash_docstring
 
-    :$ ./bash_docstring /my/dir/myscript
+    ./bash_docstring /my/dir/myscript
 
