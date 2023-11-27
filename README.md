@@ -86,6 +86,9 @@ Licence: GPL3
 Repository: https://github.com/Open-Technology-Foundation/bash_docstring
 
 
+
+---
+
 ## bash_docstring Script/Function
 
 Displays docstring from a Bash script or function within a Bash
