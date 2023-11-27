@@ -1,15 +1,15 @@
 # bash_docstring
 
-### docstrings for Bash
-
-Bash docstrings are a semantic near-equivalent of Python
-docstrings.
+## Docstrings for Shell/Bash
 
 Docstrings are extremely useful for centralising documentation in
 one place, helping to standarise the content that appears in
 READMEs, manpages and command-line help.
 
-## Bash docstring structure
+Bash docstrings are a semantic near-equivalent of Python
+docstrings.
+
+## Bash Docstring Structure
 
     [[function ]funcname[ ]()]
     [#!hashbangs]
@@ -24,7 +24,7 @@ READMEs, manpages and command-line help.
     commands #docstring processing stops when commands start.
     ...
 
-All #\!hashbangs, \#shellchecks, blank lines and non-docstring comments
+All hashbangs, shellchecks, blank lines and non-docstring comments
 are ignored while processing the docstring.  Docstring processing
 stops with the first command.
 
@@ -133,7 +133,7 @@ or copied into your application script as a replacement for
   function definition.
 
   Docstring comments are indicated with a leading '# '
-  (hash space).
+  (hash-space).
 
   Hashbangs, shellchecks and 'empty' comment lines are all
   ignored. Docstring processing stops at the first non-'# '*
