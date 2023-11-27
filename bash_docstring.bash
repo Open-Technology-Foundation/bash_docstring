@@ -23,6 +23,7 @@
 #     # ...
 #     commands #docstring processing stops when commands start.
 #     ...
+#
 #     ```
 #
 # All hashbangs, shellchecks, blank lines and non-docstring comments
@@ -32,7 +33,6 @@
 # To test `bash_docstring`'s functionality, use `bash_docstring`
 # itself:
 #
-#     ```
 #     # Display the bash_docstring's script docstring
 #     :\$ bash_docstring
 #
@@ -45,11 +45,10 @@
 #     # with parameter expansion (-e).
 #     :\$ bash_docstring -e bash_docstring.bash bash_docstring
 #
-#     ```
-#
-# `bash_docstring` is designed to extract and display docstrings
-# from a Bash script or function. The concept of docstrings here is
-# similar to Python, where documentation is embedded within the code.
+# `bash_docstring` is designed to extract and display docstrings from
+# a Bash script or function. The concept of docstrings here is
+# similar to Python, where documentation is embedded within the
+# code.
 #
 # The -e switch determines whether to `eval` docstring lines, useful
 # if you wish to include display of current variables within the
@@ -112,27 +111,25 @@ bash_docstring() {
   #
   #   `bash_docstring [-e] [source_file [function_name]]`
   #
-  #   ```
-  #   -e, --eval
-  #       Execute `eval` for each docstring line. (Default is no
-  #       `eval`.) Escape '\$' chars as required, otherwise Bash
-  #       parameter expansion will take place. Note: All '``' and '""'
-  #       chars in the docstring are escaped when `-e` is used.
+  #     -e, --eval
+  #         Execute `eval` for each docstring line. (Default is no
+  #         `eval`.) Escape '\$' chars as required, otherwise Bash
+  #         parameter expansion will take place. Note: All '``' and '""'
+  #         chars in the docstring are escaped when `-e` is used.
   #
-  #   source_file
-  #       Name of script file in which to search for a docstring. If
-  #       not specified, `source_file` defaults to \$PRG0
-  #       (if present), which otherwise falls back to \$0.
+  #     source_file
+  #         Name of script file in which to search for a docstring. If
+  #         not specified, `source_file` defaults to \$PRG0
+  #         (if present), which otherwise falls back to \$0.
   #
-  #   function_name
-  #       Name of a function within `source_file`.
-  #       If `function_name` is not defined or empty, then the
-  #       docstring for the script `source_file` is displayed.
-  #       If defined, then the docstring for the `function_name`
-  #       function is displayed, and 0 returned.
-  #       If a docstring is not found, an error message is displayed
-  #       and 1 is returned.
-  #   ```
+  #     function_name
+  #         Name of a function within `source_file`.
+  #         If `function_name` is not defined or empty, then the
+  #         docstring for the script `source_file` is displayed.
+  #         If defined, then the docstring for the `function_name`
+  #         function is displayed, and 0 returned.
+  #         If a docstring is not found, an error message is displayed
+  #         and 1 is returned.
   #
   #   `bash_docstring` reads `source_file` for all contiguous comments
   #   at the top of the script or (optionally) immediately after a
@@ -141,7 +138,7 @@ bash_docstring() {
   #   docstring comments are indicated with a leading '# '
   #   (hash space).
   #
-  #   #!hashbangs, #shellchecks and 'empty' comments (^#\$) are all
+  #   #\!hashbangs, \#shellchecks and 'empty' comments (^\#\$) are all
   #   ignored. docstring processing stops at the first non-'# '*
   #   line, usually a command.
   #
@@ -149,20 +146,18 @@ bash_docstring() {
   #
   # ### Examples:
   #
-  #   ```
-  #   :\$ ./bash_docstring
+  #     :\$ ./bash_docstring
   #
-  #   :\$ ./bash_docstring -h
+  #     :\$ ./bash_docstring -h
   #
-  #   :\$ ./bash_docstring bash_docstring
+  #     :\$ ./bash_docstring bash_docstring
   #
-  #   :\$ ./bash_docstring -e bash_docstring.bash bash_docstring
+  #     :\$ ./bash_docstring -e bash_docstring.bash bash_docstring
   #
-  #   :\$ ./bash_docstring -e "" bash_docstring
+  #     :\$ ./bash_docstring -e "" bash_docstring
   #
-  #   :\$ ./bash_docstring /my/dir/myscript
+  #     :\$ ./bash_docstring /my/dir/myscript
   #
-  #   ```
 
   #!Provenence Globals for scripts
   declare -r  PRGNAME="${FUNCNAME[0]}" \
