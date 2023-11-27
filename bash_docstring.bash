@@ -22,7 +22,7 @@
 #     # docstring comment
 #     # ...
 #     # ...
-#     commands #docstring processing stops when commands start.
+#     commands #docstrings stop when commands start.
 #     ...
 #
 # All hashbangs, shellchecks, blank lines and non-docstring comments
@@ -72,6 +72,8 @@
 # users should still be cautious, especially when dealing with
 # untrusted input.
 #
+# ---
+#
 # Version: $VERSION
 #
 # Updated: $UPDATED
@@ -89,8 +91,8 @@
 bash_docstring() {
   # ## $PRGNAME Script/Function
   #
-  # Displays docstring from a Bash script or function within a Bash
-  # script docstring directly from script source file.
+  # Displays docstring from a Bash script, or function within a Bash
+  # script docstring, directly from script source file.
   #
   # `bash_docstring` is a robust way to organise script and function
   # documentation in a more standardized and consistent manner, using
@@ -111,8 +113,9 @@ bash_docstring() {
   #     -e, --eval
   #         Execute `eval` for each docstring line. (Default is no
   #         `eval`.) Escape '\$' chars as required, otherwise Bash
-  #         parameter expansion will take place. Note: All '``' and '""'
-  #         chars in the docstring are escaped when `-e` is used.
+  #         parameter expansion will take place. Note: All '``'
+  #         and '""' chars in the docstring are escaped when `-e` is
+  #         used.
   #
   #     source_file
   #         Name of script file in which to search for a docstring. If
@@ -120,26 +123,27 @@ bash_docstring() {
   #         (if present), which otherwise falls back to \$0.
   #
   #     function_name
-  #         Name of a function within `source_file`.
-  #         If `function_name` is not defined or empty, then the
-  #         docstring for the script `source_file` is displayed.
-  #         If defined, then the docstring for the `function_name`
-  #         function is displayed, and 0 returned.
-  #         If a docstring is not found, an error message is displayed
-  #         and 1 is returned.
+
+  #         Name of a function within `source_file`. If
+  #         `function_name` is not defined or empty, then the
+  #         docstring for the script `source_file` is displayed. If
+  #         defined, then the docstring for the `function_name`
+  #         function is displayed, and 0 returned. If a docstring is
+  #         not found, an error message is displayed and 1 is
+  #         returned.
   #
   #   `bash_docstring` reads `source_file` for all contiguous comments
   #   at the top of the script or (optionally) immediately after a
   #   function definition.
   #
-  #   Docstring comments are indicated with a leading '# '
-  #   (hash-space).
+  #   Docstring comments are indicated with '# ' (hash-space). Leading
+  #   white-space is ignored.
   #
   #   Hashbangs, shellchecks and 'empty' comment lines are all
-  #   ignored. Docstring processing stops at the first non-'# '*
-  #   line, usually a command.
+  #   ignored. Docstring processing stops at the first command in the
+  #   script or function.
   #
-  #   Docstrings are output minus the leading hash-space '# '.
+  #   Docstrings are output to stdout minus leading hash-space '# '.
   #
   # ### Examples:
   #
@@ -156,18 +160,22 @@ bash_docstring() {
   #     ./bash_docstring /my/dir/myscript
   #
 
-  #!Provenence Globals for scripts
-  declare -r  PRGNAME="${FUNCNAME[0]}" \
-              VERSION='0.4.20' \
-              UPDATED='2023-11-30' \
-              AUTHOR='Gary Dean' \
-              ORGANISATION='Open Technology Foundation' \
-              LICENSE='GPL3' \
-              DESCRIPTION='Docstrings for Bash.' \
-              DEPENDENCIES='Bash >= 5'
-  declare -r  USAGE="$PRGNAME [-e] [source_file [function_name]]" \
-              REPOSITORY="https://github.com/Open-Technology-Foundation/${PRGNAME}"
-  declare -n  ORGANIZATION=ORGANISATION AUTHORS=AUTHOR LICENCE=LICENSE
+  #! #canonical Provenence Globals for scripts
+  declare -r  \
+      PRGNAME="${FUNCNAME[0]}" \
+      VERSINFO=([0]='0' [1]='4' [2]='20' [3]='1' [4]='beta' [5]="${BASH_VERSION:-}") \
+      UPDATED='2023-11-30' \
+      AUTHOR='Gary Dean' \
+      ORGANISATION='Open Technology Foundation' \
+      LICENSE='GPL3' \
+      DESCRIPTION='Docstrings for Bash/Shell.' \
+      DEPENDENCIES='bash >= 5'
+  declare -r  \
+      VERSION="${VERSINFO[0]}.${VERSINFO[1]}.${VERSINFO[2]}(${VERSINFO[3]})-${VERSINFO[4]}" \
+      USAGE="$PRGNAME [-e] [source_file [function_name]]" \
+      REPOSITORY="https://github.com/Open-Technology-Foundation/${PRGNAME}"
+  declare -n  \
+      ORGANIZATION=ORGANISATION AUTHORS=AUTHOR LICENCE=LICENSE
 
   #local -i _verbose=0
   local -i _eval=0
