@@ -73,7 +73,7 @@ untrusted input.
 
  ---
 
-Version: 0.4.20(1)-beta
+Version: 0.4.20(3)-beta
 
 Updated: 2023-11-30
 
@@ -87,7 +87,7 @@ Repository: https://github.com/Open-Technology-Foundation/bash_docstring
 
 
 
----
+===
 
 ## bash_docstring Script/Function
 

@@ -161,9 +161,10 @@ bash_docstring() {
   #
 
   #! #canonical Provenence Globals for scripts
+declare -ir BUILD=4
   declare -r  \
       PRGNAME="${FUNCNAME[0]}" \
-      VERSINFO=([0]='0' [1]='4' [2]='20' [3]='1' [4]='beta' [5]="${BASH_VERSION:-}") \
+      VERSINFO=([0]='0' [1]='4' [2]='20' [3]="$BUILD" [4]='beta' [5]="${BASH_VERSION:-}") \
       UPDATED='2023-11-30' \
       AUTHOR='Gary Dean' \
       ORGANISATION='Open Technology Foundation' \
