@@ -123,7 +123,6 @@ bash_docstring() {
   #         (if present), which otherwise falls back to \$0.
   #
   #     function_name
-
   #         Name of a function within `source_file`. If
   #         `function_name` is not defined or empty, then the
   #         docstring for the script `source_file` is displayed. If
@@ -149,6 +148,8 @@ bash_docstring() {
   #
   #     ./bash_docstring
   #
+  #     ./bash_docstring -e
+  #
   #     ./bash_docstring -h
   #
   #     ./bash_docstring bash_docstring
@@ -161,7 +162,7 @@ bash_docstring() {
   #
 
   #! #canonical Provenence Globals for scripts
-  declare -ir BUILD=9
+  declare -ir BUILD=10
   declare -r  \
       PRGNAME="${FUNCNAME[0]}" \
       VERSINFO=([0]='0' [1]='4' [2]='20' [3]="$BUILD" [4]='beta' [5]="${BASH_VERSION:-}") \
@@ -231,7 +232,7 @@ bash_docstring() {
     # If it's a lone comment, print a line and keep going.
     [[ $ln == '#' ]]            && { echo; continue; }
     # If it's not a Bash docstring comment, then bugger orf.
-    [[ ${ln:0:2} == '# ' ]]     || continue
+    [[ ${ln:0:2} == '# ' || ${ln:0:2} == '#@' ]]     || continue
     # shellcheck begone.
     [[ $ln =~ ^#[[:space:]]*shellcheck[[:space:]]+disable ]] && continue
 

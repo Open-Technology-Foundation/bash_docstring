@@ -73,7 +73,7 @@ untrusted input.
 
  ---
 
-Version: 0.4.20(8)-beta
+Version: 0.4.20(9)-beta
 
 Updated: 2023-11-30
 
@@ -147,6 +147,8 @@ or copied into your application script as a replacement for
 ### Examples:
 
     ./bash_docstring
+
+    ./bash_docstring -e
 
     ./bash_docstring -h
 
