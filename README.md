@@ -73,7 +73,7 @@ untrusted input.
 
  ---
 
-Version: 0.4.20(7)-beta
+Version: 0.4.20(8)-beta
 
 Updated: 2023-11-30
 
