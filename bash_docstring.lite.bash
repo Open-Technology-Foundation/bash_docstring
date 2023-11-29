@@ -9,7 +9,7 @@ bash_docstring.lite() {
     [[ -z "$line" ]] && continue
     [[ ${line:0:1} == '#' ]] || break
     [[ $line == '#' ]] && { echo; continue; }
-    [[ ${line:0:2} == '# '  || ${ln:0:2} == '#@' ]] && echo "${line:2}"
+    [[ ${line:0:2} == '# '  || ${line:0:2} == '#@' ]] && echo "${line:2}"
   done <"$0"
   return 0
 }

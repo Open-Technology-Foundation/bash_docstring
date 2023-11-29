@@ -50,8 +50,8 @@ code.
 
 The -e switch determines whether to `eval` docstring lines, useful
 if you wish to include display of current variables within the
-docstring.  This can be very useful for dynamic help text.  See
-warnings below.
+docstring.  This can be very useful for dynamic help text.
+Note: '``' and '\$ (' are disabled. See warnings below.
 
 If no function name specified, then `bash_docstring` looks for the
 docstring at the start of the script file. If a function name is
@@ -65,15 +65,14 @@ returns an error.
 
 ## Security Considerations
 
-The use of eval in shell scripts can be risky if not handled
-carefully, as it executes the evaluated string as a command. This
-script attempts to mitigate this risk by escaping characters, but
-users should still be cautious, especially when dealing with
-untrusted input.
+The use of `-e|--eval` can be risky if not handled carefully.
+`docstring` attempts to mitigate this risk by escaping '``' and '$
+(' characters, but users should still be cautious, especially when
+dealing with untrusted input.
 
  ---
 
-Version: 0.4.20(9)-beta
+Version: 0.4.20(10)-beta
 
 Updated: 2023-11-30
 
@@ -99,7 +98,7 @@ documentation in a more standardized and consistent manner, using
 the well-known conventions and protocols of contemporary computer
 programming.
 
-`bash_docstring` is written using wholesome, 100% Bash builtins.
+`bash_docstring` is written using 100% core Bash.
 The in-memory size of the function is less than 2.5K.
 
 In typical usage, the `bash_docstring` function is simply sourced

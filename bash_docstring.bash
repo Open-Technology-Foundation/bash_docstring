@@ -51,8 +51,8 @@
 #
 # The -e switch determines whether to `eval` docstring lines, useful
 # if you wish to include display of current variables within the
-# docstring.  This can be very useful for dynamic help text.  See
-# warnings below.
+# docstring.  This can be very useful for dynamic help text.
+# Note: '``' and '\$(' are disabled. See warnings below.
 #
 # If no function name specified, then `bash_docstring` looks for the
 # docstring at the start of the script file. If a function name is
@@ -66,11 +66,10 @@
 #
 # ## Security Considerations
 #
-# The use of eval in shell scripts can be risky if not handled
-# carefully, as it executes the evaluated string as a command. This
-# script attempts to mitigate this risk by escaping characters, but
-# users should still be cautious, especially when dealing with
-# untrusted input.
+# The use of `-e|--eval` can be risky if not handled carefully.
+# `docstring` attempts to mitigate this risk by escaping '``' and '\$
+# (' characters, but users should still be cautious, especially when
+# dealing with untrusted input.
 #
 # ---
 #
@@ -89,6 +88,7 @@
 #
 
 bash_docstring() {
+  #This is a function docstring:
   # ## $PRGNAME Script/Function
   #
   # Displays docstring from a Bash script, or function within a Bash
@@ -99,7 +99,7 @@ bash_docstring() {
   # the well-known conventions and protocols of contemporary computer
   # programming.
   #
-  # `bash_docstring` is written using wholesome, 100% Bash builtins.
+  # `bash_docstring` is written using 100% core Bash.
   # The in-memory size of the function is less than 2.5K.
   #
   # In typical usage, the `bash_docstring` function is simply sourced
@@ -108,7 +108,7 @@ bash_docstring() {
   #
   # ### Usage
   #
-  #   `bash_docstring [-e] [source_file [function_name]]`
+  #   `$USAGE`
   #
   #     -e, --eval
   #         Execute `eval` for each docstring line. (Default is no
@@ -162,7 +162,7 @@ bash_docstring() {
   #
 
   #! #canonical Provenence Globals for scripts
-  declare -ir BUILD=10
+  declare -ir BUILD=11
   declare -r  \
       PRGNAME="${FUNCNAME[0]}" \
       VERSINFO=([0]='0' [1]='4' [2]='20' [3]="$BUILD" [4]='beta' [5]="${BASH_VERSION:-}") \
@@ -176,8 +176,21 @@ bash_docstring() {
       VERSION="${VERSINFO[0]}.${VERSINFO[1]}.${VERSINFO[2]}(${VERSINFO[3]})-${VERSINFO[4]}" \
       USAGE="$PRGNAME [-e] [source_file [function_name]]" \
       REPOSITORY="https://github.com/Open-Technology-Foundation/${PRGNAME}"
+  # For US compatibility
   declare -n  \
-      ORGANIZATION=ORGANISATION AUTHORS=AUTHOR LICENCE=LICENSE
+      ORGANIZATION=ORGANISATION \
+      LICENCE=LICENSE
+  # For manpage compatibility
+  declare -n  \
+      AUTHORS=AUTHOR \
+      REPOSITORY_NAME=PRGNAME \
+      NAME=PRGNAME \
+      VERSIONS=VERSION \
+      HISTORY=DESCRIPTION \
+      COPYRIGHT=LICENSE \
+      REQUIREMENTS=DEPENDENCIES \
+      SYNOPSIS=USAGE \
+      SEE_ALSO=REPOSITORY
 
   #local -i _verbose=0
   local -i _eval=0
@@ -187,16 +200,30 @@ bash_docstring() {
     +e|--no-eval)   _eval=0 ;;
     #-v|--verbose)  _verbose+=1 ;;
     #-q|--quiet)    _verbose=0 ;;
-    -V|--version)   echo "$PRGNAME $VERSION"; return 0 ;;
+    -V|--version)
+        echo "$PRGNAME $VERSION"; return 0 ;;
     -h|--help)
         #dog-fooding to display help from current source.
         bash_docstring -e '' "${FUNCNAME[0]}" | less -FXRS; return 0 ;;
-    -[eVh]*) #shellcheck disable=SC2046 # de-aggregate aggregated short options
-        set -- '' $(printf -- "-%c " $(grep -o . <<<"${1:1}")) "${@:2}" ;;
+    -D|--debug)
+        declare -ix DEBUG; DEBUG+=1
+        declare -x PS4='+ $LINENO '
+        declare -p PRGNAME VERSION UPDATED AUTHOR ORGANISATION LICENSE DESCRIPTION DEPENDENCIES USAGE REPOSITORY |cut -d' ' -f3- 1>&2
+        set -vx
+        ;;
+    -[eDVh]*) #shellcheck disable=SC2046 # de-aggregate aggregated short options
+        set -- '' $(printf -- "-%c " $(grep -o . <<<"${1:1}")) "${@:2}"
+        ;;
     -?|--*)
-        >&2 echo "${FUNCNAME[0]}: error: Invalid option '$1'"; return 22 ;;
-    *)  ((${#_arg[@]} > 2)) && { >&2 echo "${FUNCNAME[0]}: error: Invalid argument '$1'"; return 2; }
-        _arg+=("$1") ;;
+        >&2 echo "${FUNCNAME[0]}: error: Invalid option '$1'"
+        return 22
+        ;;
+    *)  ((${#_arg[@]} > 2)) && {
+          >&2 echo "${FUNCNAME[0]}: error: Invalid argument '$1'"
+          return 2
+        }
+        _arg+=("$1")
+        ;;
   esac; shift; done
 
   local -- input_from="${PRG0:-"${0:-}"}"
