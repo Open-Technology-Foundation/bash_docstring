@@ -162,7 +162,7 @@ bash_docstring() {
   #
 
   #! #canonical Provenence Globals for scripts
-  declare -ir BUILD=18
+  declare -ir BUILD=19
   declare -r  \
       PRGNAME="${FUNCNAME[0]}" \
       VERSINFO=([0]='0' [1]='4' [2]='20' [3]="$BUILD" [4]='beta' [5]="${BASH_VERSION:-}") \
