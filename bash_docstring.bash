@@ -162,7 +162,7 @@ bash_docstring() {
   #
 
   #! #canonical Provenence Globals for scripts
-  declare -ir BUILD=11
+  declare -ir BUILD=12
   declare -r  \
       PRGNAME="${FUNCNAME[0]}" \
       VERSINFO=([0]='0' [1]='4' [2]='20' [3]="$BUILD" [4]='beta' [5]="${BASH_VERSION:-}") \
@@ -173,9 +173,10 @@ bash_docstring() {
       DESCRIPTION='Docstrings for Bash/Shell.' \
       DEPENDENCIES='bash >= 5'
   declare -r  \
-      VERSION="${VERSINFO[0]}.${VERSINFO[1]}.${VERSINFO[2]}(${VERSINFO[3]})-${VERSINFO[4]}" \
       USAGE="$PRGNAME [-e] [source_file [function_name]]" \
-      REPOSITORY="https://github.com/Open-Technology-Foundation/${PRGNAME}"
+      VERSION="${VERSINFO[0]}.${VERSINFO[1]}.${VERSINFO[2]}(${VERSINFO[3]})-${VERSINFO[4]}" \
+      REPOSITORY="https://github.com/Open-Technology-Foundation/${PRGNAME}" \
+      REPOSITORY_NAME=$PRGNAME
   # For US compatibility
   declare -n  \
       ORGANIZATION=ORGANISATION \
@@ -183,7 +184,6 @@ bash_docstring() {
   # For manpage compatibility
   declare -n  \
       AUTHORS=AUTHOR \
-      REPOSITORY_NAME=PRGNAME \
       NAME=PRGNAME \
       VERSIONS=VERSION \
       HISTORY=DESCRIPTION \
