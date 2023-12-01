@@ -161,37 +161,6 @@ bash_docstring() {
   #     ./bash_docstring /my/dir/myscript
   #
 
-  #! #canonical Provenence Globals for scripts
-  declare -ir BUILD=19
-  declare -r  \
-      PRGNAME="${FUNCNAME[0]}" \
-      VERSINFO=([0]='0' [1]='4' [2]='20' [3]="$BUILD" [4]='beta' [5]="${BASH_VERSION:-}") \
-      UPDATED='2023-11-30' \
-      AUTHOR='Gary Dean' \
-      ORGANISATION='Open Technology Foundation' \
-      LICENSE='GPL3' \
-      DESCRIPTION='Docstrings for Bash/Shell.' \
-      DEPENDENCIES='bash >= 5'
-  declare -r  \
-      USAGE="$PRGNAME [-e] [source_file [function_name]]" \
-      VERSION="${VERSINFO[0]}.${VERSINFO[1]}.${VERSINFO[2]}(${VERSINFO[3]})-${VERSINFO[4]}" \
-      REPOSITORY="https://github.com/Open-Technology-Foundation/${PRGNAME}" \
-      REPOSITORY_NAME=$PRGNAME
-  # For US compatibility
-  declare -n  \
-      ORGANIZATION=ORGANISATION \
-      LICENCE=LICENSE
-  # For manpage compatibility
-  declare -n  \
-      AUTHORS=AUTHOR \
-      NAME=PRGNAME \
-      VERSIONS=VERSION \
-      HISTORY=DESCRIPTION \
-      COPYRIGHT=LICENSE \
-      REQUIREMENTS=DEPENDENCIES \
-      SYNOPSIS=USAGE \
-      SEE_ALSO=REPOSITORY
-
   #local -i _verbose=0
   local -i _eval=0
   local -a _arg=()
@@ -201,14 +170,14 @@ bash_docstring() {
     #-v|--verbose)  _verbose+=1 ;;
     #-q|--quiet)    _verbose=0 ;;
     -V|--version)
-        echo "$PRGNAME $VERSION"; return 0 ;;
+        [[ -v PRGNAME ]] && echo "$PRGNAME $VERSION"
+        return 0 ;;
     -h|--help)
         #dog-fooding to display help from current source.
-        bash_docstring -e '' "${FUNCNAME[0]}" | less -FXRS; return 0 ;;
+        [[ -v PRGNAME ]] && bash_docstring -e '' "${FUNCNAME[0]}" | less -FXRS; return 0 ;;
     -D|--debug)
         declare -ix DEBUG; DEBUG+=1
         declare -x PS4='+ $LINENO '
-        declare -p PRGNAME VERSION UPDATED AUTHOR ORGANISATION LICENSE DESCRIPTION DEPENDENCIES USAGE REPOSITORY |cut -d' ' -f3- 1>&2
         set -vx
         ;;
     -[eDVh]*) #shellcheck disable=SC2046 # de-aggregate aggregated short options
@@ -255,24 +224,24 @@ bash_docstring() {
       continue
     fi
     # If it's not a comment, then bugger orf.
-    [[ ${ln:0:1} == '#' ]]      || return 0
+    [[ ${ln:0:1} == '#' ]]          || return 0
     # If it's a lone comment, print a line and keep going.
-    [[ $ln == '#' ]]            && { echo; continue; }
-    # If it's not a Bash docstring comment, then bugger orf.
-    [[ ${ln:0:2} == '# ' || ${ln:0:2} == '#@' ]]     || continue
+    [[ $ln == '#' ]]                && { echo; continue; }
     # shellcheck begone.
     [[ $ln =~ ^#[[:space:]]*shellcheck[[:space:]]+disable ]] && continue
+    # If it's not a Bash docstring comment, then bugger orf.
+    ##[[ ${ln:0:2} == '# ' || ${ln:0:2} == '#@' ]]     || continue
+    [[ $ln =~ ^\#[\@]{,1}\ (.*) ]]  &&  ln="${BASH_REMATCH[1]}" || continue
 
     # Output the docstring line.
     if ((_eval)); then
-      ln="${ln//\"/\\\"}";
-      ln="${ln//\`/\\\`}";
-      ln="${ln//\$\(/\\\$ \(}";
-      [[ "${ln:2:1}" == '-' ]] && ln="#  ${ln:2}" #hmmm
-      eval "echo \"${ln:2}\""
+      # Escape all `, $(, and ".
+      ln="${ln//\"/\\\"}"; ln="${ln//\`/\\\`}"; ln="${ln//\$\(/\\\$ \(}";
+      [[ "${ln:0:1}" == '-' ]] && ln=" $ln" #hmmm
+      eval "echo -e \"$ln\""
     else
-      [[ "${ln:2:1}" == '-' ]] && ln="#  ${ln:2}" #hmmm2
-      echo "${ln:2}"
+      [[ "${ln:0:1}" == '-' ]] && ln=" $ln" #hmmm2
+      echo -e "$ln"
     fi
   done <"$input_from"
   >&2 echo "${FUNCNAME[0]}: error: Bash docstring not found for $input_from_base:${ofuncname:-'script'}"
@@ -282,6 +251,37 @@ declare -fx bash_docstring
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   set -euo pipefail
+  #! #canonical Provenence Globals for scripts
+  declare -ir BUILD=20
+  declare -r  \
+      PRGNAME="bash_docstring" \
+      VERSINFO=([0]='0' [1]='4' [2]='20' [3]="$BUILD" [4]='beta' [5]="${BASH_VERSION:-}") \
+      UPDATED='2023-11-30' \
+      AUTHOR='Gary Dean' \
+      ORGANISATION='Open Technology Foundation' \
+      LICENSE='GPL3' \
+      DESCRIPTION='Docstrings for Bash/Shell.' \
+      DEPENDENCIES='bash >= 5'
+  declare -r  \
+      USAGE="$PRGNAME [-e] [source_file [function_name]]" \
+      VERSION="${VERSINFO[0]}.${VERSINFO[1]}.${VERSINFO[2]}(${VERSINFO[3]})-${VERSINFO[4]}" \
+      REPOSITORY="https://github.com/Open-Technology-Foundation/${PRGNAME}" \
+      REPOSITORY_NAME=$PRGNAME
+  # For US compatibility
+  declare -n  \
+      ORGANIZATION=ORGANISATION \
+      LICENCE=LICENSE
+  # For manpage compatibility
+  declare -n  \
+      AUTHORS=AUTHOR \
+      NAME=PRGNAME \
+      VERSIONS=VERSION \
+      HISTORY=DESCRIPTION \
+      COPYRIGHT=LICENSE \
+      REQUIREMENTS=DEPENDENCIES \
+      SYNOPSIS=USAGE \
+      SEE_ALSO=REPOSITORY
+
   declare -ixg DEBUG=${DEBUG:-0}
   ((DEBUG>1)) && { declare -xg PS4='+ $LINENO: '; set -xv; }
   bash_docstring "$@"
