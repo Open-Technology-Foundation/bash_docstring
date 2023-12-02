@@ -72,7 +72,7 @@ dealing with untrusted input.
 
  ---
 
-Version: 0.4.20(23)-beta
+Version: 0.4.20(24)-beta
 
 Updated: 2023-11-30
 
