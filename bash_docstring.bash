@@ -252,7 +252,7 @@ declare -fx bash_docstring
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   set -euo pipefail
   #! #canonical Provenence Globals for scripts
-  declare -ir BUILD=23
+  declare -ir BUILD=24
   declare -r  \
       PRGNAME="bash_docstring" \
       VERSINFO=([0]='0' [1]='4' [2]='20' [3]="$BUILD" [4]='beta' [5]="${BASH_VERSION:-}") \
