@@ -7,8 +7,9 @@
 # one place, helping to standarise the content that appears in
 # READMEs, manpages and command-line help.
 #
-# Bash docstrings are a semantic near-equivalent of Python
-# docstrings.
+# Bash docstrings are a semantic near-equivalent of Python docstrings.
+# The `bash_docstring` script/function thus emulates Python's
+# `__doc__`.
 #
 # ## Bash Docstring Structure
 #
@@ -85,8 +86,8 @@
 #
 # Repository: $REPOSITORY
 #
+# See Also: $SEE_ALSO
 #
-
 bash_docstring() {
   #This is a function docstring:
   # ## $PRGNAME Script/Function
@@ -252,16 +253,17 @@ declare -fx bash_docstring
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   set -euo pipefail
   #! #canonical Provenence Globals for scripts
-  declare -ir BUILD=25
+  declare -ir BUILD=26
   declare -r  \
-      PRGNAME="bash_docstring" \
+      PRGNAME='bash_docstring' \
       VERSINFO=([0]='0' [1]='4' [2]='20' [3]="$BUILD" [4]='beta' [5]="${BASH_VERSION:-}") \
       UPDATED='2023-11-30' \
       AUTHOR='Gary Dean' \
       ORGANISATION='Open Technology Foundation' \
       LICENSE='GPL3' \
       DESCRIPTION='Docstrings for Bash/Shell.' \
-      DEPENDENCIES='bash >= 5'
+      DEPENDENCIES='bash >= 5' \
+      SEE_ALSO='bash_docstring.lite'
   declare -r  \
       USAGE="$PRGNAME [-e] [source_file [function_name]]" \
       VERSION="${VERSINFO[0]}.${VERSINFO[1]}.${VERSINFO[2]}(${VERSINFO[3]})-${VERSINFO[4]}" \
@@ -279,8 +281,7 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
       HISTORY=DESCRIPTION \
       COPYRIGHT=LICENSE \
       REQUIREMENTS=DEPENDENCIES \
-      SYNOPSIS=USAGE \
-      SEE_ALSO=REPOSITORY
+      SYNOPSIS=USAGE
 
   declare -ixg DEBUG=${DEBUG:-0}
   ((DEBUG>1)) && { declare -xg PS4='+ $LINENO: '; set -xv; }

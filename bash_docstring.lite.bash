@@ -6,7 +6,7 @@ bash_docstring.lite() {
   [[ $0 == 'bash' ]] && return 0
   local -i _eval=0
   [[ "${1:-}" == '-e' ]] && { _eval=1; shift; }
-  [[ -n ${1:-} ]]        && { echo "$1"; shift; }
+  (($#)) && { echo "$1"; shift; }
   local -- line pline
   while IFS= read -r line; do
     line=${line#"${line%%[![:blank:]]*}"}
@@ -17,7 +17,7 @@ bash_docstring.lite() {
     ((_eval)) && { eval "echo -e \"$pline\""; continue; }
     echo -e "$pline"
   done <"$0"
-  [[ -n ${1:-} ]]        && echo "$1"}
+  (($#)) && echo "$1"
   return 0
 }
 declare -fx 'bash_docstring.lite'

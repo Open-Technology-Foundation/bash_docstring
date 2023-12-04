@@ -6,8 +6,9 @@ Docstrings are extremely useful for centralising documentation in
 one place, helping to standarise the content that appears in
 READMEs, manpages and command-line help.
 
-Bash docstrings are a semantic near-equivalent of Python
-docstrings.
+Bash docstrings are a semantic near-equivalent of Python docstrings.
+The `bash_docstring` script/function thus emulates Python's
+`__doc__`.
 
 ## Bash Docstring Structure
 
@@ -72,7 +73,7 @@ dealing with untrusted input.
 
  ---
 
-Version: 0.4.20(24)-beta
+Version: 0.4.20(25)-beta
 
 Updated: 2023-11-30
 
@@ -84,6 +85,7 @@ Licence: GPL3
 
 Repository: https://github.com/Open-Technology-Foundation/bash_docstring
 
+See Also: bash_docstring.lite
 
 
 ===
