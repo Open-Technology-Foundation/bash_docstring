@@ -2,13 +2,12 @@
 
 ## Docstrings for Shell/Bash
 
-Docstrings are extremely useful for centralising documentation in
-one place, helping to standarise the content that appears in
+Docstrings are very useful for centralising documentation in one
+place, and helps to standarise the information that appears in
 READMEs, manpages and command-line help.
 
 Bash docstrings are a semantic near-equivalent of Python docstrings.
-The `bash_docstring` script/function thus emulates Python's
-`__doc__`.
+The `bash_docstring` script/function emulates Python's `__doc__`.
 
 ## Bash Docstring Structure
 
@@ -73,7 +72,7 @@ dealing with untrusted input.
 
  ---
 
-Version: 0.4.20(25)-beta
+Version: 0.4.20(26)-beta
 
 Updated: 2023-11-30
 

@@ -3,13 +3,12 @@
 #
 # ## Docstrings for Shell/Bash
 #
-# Docstrings are extremely useful for centralising documentation in
-# one place, helping to standarise the content that appears in
+# Docstrings are very useful for centralising documentation in one
+# place, and helps to standarise the information that appears in
 # READMEs, manpages and command-line help.
 #
 # Bash docstrings are a semantic near-equivalent of Python docstrings.
-# The `bash_docstring` script/function thus emulates Python's
-# `__doc__`.
+# The `bash_docstring` script/function emulates Python's `__doc__`.
 #
 # ## Bash Docstring Structure
 #
@@ -220,7 +219,7 @@ bash_docstring() {
     # If 'funcname' has been specified, ignore all lines until we
     # find the start of the function definition for 'funcname'.
     if [[ -n "$funcname" ]]; then
-      [[ $ln =~ ^(function[[:blank:]]+)?$funcname[[:blank:]]*\(\) ]] \
+      [[ $ln =~ ^(function[[:blank:]]+)?${funcname}[[:blank:]]*\(\) ]] \
         && funcname=''
       continue
     fi
@@ -228,10 +227,11 @@ bash_docstring() {
     [[ ${ln:0:1} == '#' ]]          || return 0
     # If it's a lone comment, print a line and keep going.
     [[ $ln == '#' ]]                && { echo; continue; }
-    # shellcheck begone.
+    # .shellcheck begone.
     [[ $ln =~ ^#[[:space:]]*shellcheck[[:space:]]+disable ]] && continue
     # If it's not a Bash docstring comment, then bugger orf.
     ##[[ ${ln:0:2} == '# ' || ${ln:0:2} == '#@' ]]     || continue
+    #shellcheck disable=SC2015
     [[ $ln =~ ^\#[\@]{,1}\ (.*) ]]  &&  ln="${BASH_REMATCH[1]}" || continue
 
     # Output the docstring line.
@@ -250,10 +250,11 @@ bash_docstring() {
 }
 declare -fx bash_docstring
 
+#shellcheck disable=SC2034
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   set -euo pipefail
   #! #canonical Provenence Globals for scripts
-  declare -ir BUILD=26
+  declare -ir BUILD=27
   declare -r  \
       PRGNAME='bash_docstring' \
       VERSINFO=([0]='0' [1]='4' [2]='20' [3]="$BUILD" [4]='beta' [5]="${BASH_VERSION:-}") \
